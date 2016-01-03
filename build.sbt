@@ -8,3 +8,5 @@ libraryDependencies ++= List(
   "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.0.1",
   "org.scalatest" %% "scalatest" % "2.2.5" % "test"
 )
+
+initialCommands in console := "import pl.bka.Api._; import pl.bka._"
