@@ -9,5 +9,7 @@ object Api {
   }
 
   def jsonread(jsonFilePath: String = "./tree.json"): Node = JsonOps.readFromJsonFile(jsonFilePath)
+
+  def dup(tree:Node): Seq[Seq[Node]] = Duplicates.findDuplicates(tree)
 }
 
