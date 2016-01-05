@@ -1,23 +1,23 @@
 package pl.bka
 
 object Api {
-  var curtree: Node = null
+  var tree: Node = null
 
   def get(path: String): Node = {
-    curtree = Node(path)
-    curtree
+    tree = Node(path)
+    tree
   }
 
-  def ser(tree: Node = curtree, jsonFilePath: String = "./tree.json"): Unit = {
+  def ser(tree: Node = tree, jsonFilePath: String = "./tree.json"): Unit = {
     JsonOps.writeToJsonFile(tree, jsonFilePath)
     println("Done")
   }
 
   def deser(jsonFilePath: String = "./tree.json"): Node = {
-    curtree = JsonOps.readFromJsonFile(jsonFilePath)
-    curtree
+    tree = JsonOps.readFromJsonFile(jsonFilePath)
+    tree
   }
 
-  def dup(tree:Node = curtree): Seq[Seq[Node]] = Duplicates.findDuplicates(tree)
+  def dup(tree:Node = tree): Seq[Seq[Node]] = Duplicates.findDuplicates(tree)
 }
 

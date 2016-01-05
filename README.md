@@ -11,6 +11,11 @@ read filesystem tree into scala objects graph:
     scala> get("/home/bka/github")
     res0: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331 subnodes)
 
+analyze tree:
+
+    scala> tree.listNodes.filter(_.attributes.name.endsWith("scala")).length
+    res1: Int = 70
+
 serialize it to json file (default file is ./tree.json):
 
     scala> ser()
@@ -19,12 +24,12 @@ serialize it to json file (default file is ./tree.json):
 deserialize back to a tree:
 
     scala> deser()
-    res2: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331 subnodes)
+    res3: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331 subnodes)
 
 find duplicates:
 
     scala> dup()
-    res3: Seq[Seq[pl.bka.Node]] = ...
+    res4: Seq[Seq[pl.bka.Node]] = ...
 
 Remarks
 ======
