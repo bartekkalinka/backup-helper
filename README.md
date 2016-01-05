@@ -31,6 +31,11 @@ find duplicates:
     scala> dup()
     res4: Seq[Seq[pl.bka.Node]] = ...
 
+write report of duplicates to file (default file is ./duplicates.txt):
+
+    scala> report(res4)
+    Done
+
 Remarks
 ======
 

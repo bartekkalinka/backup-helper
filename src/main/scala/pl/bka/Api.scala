@@ -19,5 +19,10 @@ object Api {
   }
 
   def dup(tree:Node = tree): Seq[Seq[Node]] = Duplicates.findDuplicates(tree)
+
+  def report(duplicates: Seq[Seq[Node]], reportFilePath: String = "./duplicates.txt") = {
+    FileOps.writeFile(reportFilePath, Duplicates.report(duplicates))
+    println("Done")
+  }
 }
 

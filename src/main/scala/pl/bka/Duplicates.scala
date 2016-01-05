@@ -30,5 +30,8 @@ object Duplicates {
     println("8 result.length " + result.length)
     result
   }
+
+  def report(duplicates: Seq[Seq[Node]]): String =
+    duplicates.map(group => "\n" + group.map(node => "\n" + node.toString).reduce(_ + _)).reduce(_ + _)
 }
 
