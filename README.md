@@ -13,12 +13,12 @@ read filesystem tree into scala objects graph:
 
 serialize it to json file (default file is ./tree.json):
 
-    scala> jsonwrite(res0)
+    scala> ser(res0)
     Done
 
 deserialize back to a tree:
 
-    scala> jsonread()
+    scala> deser()
     res2: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331)
 
 find duplicates:
