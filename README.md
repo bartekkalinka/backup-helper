@@ -13,7 +13,7 @@ read filesystem tree into scala objects graph:
 
 serialize it to json file (default file is ./tree.json):
 
-    scala> ser(res0)
+    scala> ser()
     Done
 
 deserialize back to a tree:
@@ -23,7 +23,7 @@ deserialize back to a tree:
 
 find duplicates:
 
-    scala> dup(res2)
+    scala> dup()
     res3: Seq[Seq[pl.bka.Node]] = ...
 
 Remarks
