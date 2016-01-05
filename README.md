@@ -9,7 +9,7 @@ Usage
 read filesystem tree into scala objects graph:
 
     scala> get("/home/bka/github")
-    res0: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331)
+    res0: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331 subnodes)
 
 serialize it to json file (default file is ./tree.json):
 
@@ -19,7 +19,7 @@ serialize it to json file (default file is ./tree.json):
 deserialize back to a tree:
 
     scala> deser()
-    res2: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331)
+    res2: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331 subnodes)
 
 find duplicates:
 

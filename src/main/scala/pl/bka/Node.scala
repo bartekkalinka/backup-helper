@@ -45,7 +45,7 @@ case class FileNode(attributes: NodeAttributes, size: Long) extends Node {
   def listNodes = List(this)
   def totalSize = size
   def numFiles = 1L
-  override def toString = "FileNode(" + attributes.path + ", " + Node.prettySize(size) + ")"
+  override def toString = s"FileNode(${attributes.path}, ${Node.prettySize(size)})"
 }
 
 case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node]) extends Node {
@@ -55,5 +55,5 @@ case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node])
   )
   def totalSize = size + children.foldLeft(0L)((acc, child) => acc + child.totalSize)
   def numFiles = children.foldLeft(0L)((acc, child) => acc + child.numFiles)
-  override def toString = "DirNode(" + attributes.path + ", " + Node.prettySize(totalSize) + ", " + numFiles + ")"
+  override def toString = s"DirNode(${attributes.path}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
 }
