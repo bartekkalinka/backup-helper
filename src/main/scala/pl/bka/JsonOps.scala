@@ -19,7 +19,7 @@ object JsonOps extends DefaultJsonProtocol {
   implicit val nodeAttributesFormat = jsonFormat2(NodeAttributes)
   implicit val fileNodeFormat = jsonFormat(FileNode, "attributes", "size")
   implicit val dirNodeFormat = jsonFormat(DirNode, "attributes", "size", "children")
-  implicit val ignoredNodeFormat = jsonFormat1(IgnoredNode)
+  implicit val ignoredNodeFormat = jsonFormat(IgnoredNode, "path", "exception")
 
   def writeToJson(tree: Node): String = tree.toJson.compactPrint
 

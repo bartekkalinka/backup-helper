@@ -23,14 +23,13 @@ object Node {
       else if (file.isDirectory && file.getCanonicalPath == path) {
         DirNode(NodeAttributes(file.getPath, file.getName), file.length,
           file.listFiles.map(subFile => Node(subFile.getPath)).toList)
-      } else IgnoredNode(path)
+      } else IgnoredNode(path, None)
     }
     catch {
       case e:Exception =>
         println(s"problem with building Node on path $path")
         println(s"isFile ${file.isFile} isDirectory ${file.isDirectory} isAbsolute ${file.isAbsolute} isHidden ${file.isHidden} canonicalPath ${file.getCanonicalPath}")
-        e.printStackTrace()
-        null
+        IgnoredNode(path, Some(e.toString))
     }
   }
 
@@ -64,7 +63,7 @@ case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node])
   override def toString = s"DirNode(${attributes.path}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
 }
 
-case class IgnoredNode(path: String) extends Node {
+case class IgnoredNode(path: String, exception: Option[String]) extends Node {
   val attributes = NodeAttributes(path, "")
   val size = 0L
   def listNodes = List(this)
