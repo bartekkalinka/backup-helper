@@ -6,7 +6,6 @@ case class NodeAttributes(path: String, name: String)
 
 sealed trait Node { self =>
   val attributes: NodeAttributes
-  val isFile: Boolean
   val size: Long
   def listNodes: List[Node]
   def totalSize: Long
@@ -17,12 +16,21 @@ sealed trait Node { self =>
 object Node {
   def apply(path: String): Node = {
     val file = new File(path)
-    if(file.isFile) {
-      FileNode(NodeAttributes(file.getPath, file.getName), file.length)
+    try {
+      if(file.isFile) {
+        FileNode(NodeAttributes(file.getPath, file.getName), file.length)
+      }
+      else if (file.isDirectory && file.getCanonicalPath == path) {
+        DirNode(NodeAttributes(file.getPath, file.getName), file.length,
+          file.listFiles.map(subFile => Node(subFile.getPath)).toList)
+      } else IgnoredNode(path)
     }
-    else {
-      DirNode(NodeAttributes(file.getPath, file.getName), file.length,
-        file.listFiles.map(subFile => Node(subFile.getPath)).toList)
+    catch {
+      case e:Exception =>
+        println(s"problem with building Node on path $path")
+        println(s"isFile ${file.isFile} isDirectory ${file.isDirectory} isAbsolute ${file.isAbsolute} isHidden ${file.isHidden} canonicalPath ${file.getCanonicalPath}")
+        e.printStackTrace()
+        null
     }
   }
 
@@ -41,7 +49,6 @@ object Node {
 }
 
 case class FileNode(attributes: NodeAttributes, size: Long) extends Node {
-  val isFile = true
   def listNodes = List(this)
   def totalSize = size
   def numFiles = 1L
@@ -49,11 +56,19 @@ case class FileNode(attributes: NodeAttributes, size: Long) extends Node {
 }
 
 case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node]) extends Node {
-  val isFile = false
   def listNodes = this :: children.foldLeft(List[Node]())(
     (acc, subnode) => acc ++ subnode.listNodes
   )
   def totalSize = size + children.foldLeft(0L)((acc, child) => acc + child.totalSize)
   def numFiles = children.foldLeft(0L)((acc, child) => acc + child.numFiles)
   override def toString = s"DirNode(${attributes.path}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
+}
+
+case class IgnoredNode(path: String) extends Node {
+  val attributes = NodeAttributes(path, "")
+  val size = 0L
+  def listNodes = List(this)
+  def totalSize = 0L
+  def numFiles = 0L
+  override def toString = s"IgnoredNode($path)"
 }

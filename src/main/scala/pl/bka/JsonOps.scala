@@ -8,6 +8,7 @@ object JsonOps extends DefaultJsonProtocol {
     def write(n: Node) = n match {
       case f: FileNode => f.toJson
       case d: DirNode => d.toJson
+      case i: IgnoredNode => i.toJson
     }
 
     def read(value: JsValue) = value match {
@@ -18,6 +19,7 @@ object JsonOps extends DefaultJsonProtocol {
   implicit val nodeAttributesFormat = jsonFormat2(NodeAttributes)
   implicit val fileNodeFormat = jsonFormat(FileNode, "attributes", "size")
   implicit val dirNodeFormat = jsonFormat(DirNode, "attributes", "size", "children")
+  implicit val ignoredNodeFormat = jsonFormat1(IgnoredNode)
 
   def writeToJson(tree: Node): String = tree.toJson.compactPrint
 
