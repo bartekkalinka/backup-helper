@@ -12,7 +12,12 @@ object JsonOps extends DefaultJsonProtocol {
     }
 
     def read(value: JsValue) = value match {
-      case obj: JsObject => if(obj.fields.contains("children")) obj.convertTo[DirNode] else obj.convertTo[FileNode]
+      case obj: JsObject =>
+        if(obj.fields.contains("children"))
+          obj.convertTo[DirNode]
+        else if(obj.fields.contains("path") )
+          obj.convertTo[IgnoredNode]
+        else obj.convertTo[FileNode]
       case _ => deserializationError("Node expected")
     }
   }
