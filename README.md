@@ -42,6 +42,13 @@ navigate through current tree:
     /home/bka/github
     DirNode(caves, 4.5 MB, 882 subnodes)
     DirNode(backup-helper, 149.0 MB, 322 subnodes)
+    ...
+
+    scala> cd("caves")
+    /home/bka/github/caves
+    DirNode(src, 52.4 KB, 13 subnodes)
+    FileNode(.gitignore~, 195.0 B)
+    ...
 
 Remarks
 ======

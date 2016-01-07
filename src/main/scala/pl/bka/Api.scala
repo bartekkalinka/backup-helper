@@ -33,5 +33,10 @@ object Api {
     println(directory.attributes.path)
     directory.children.foreach(c => println(c.toStringForLS))
   }
+
+  def cd(dirName: String) = {
+    directory.children.find(c => c.attributes.name == dirName).foreach { d => setDirectory(d) }
+    ls()
+  }
 }
 
