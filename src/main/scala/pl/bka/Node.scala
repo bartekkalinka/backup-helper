@@ -11,6 +11,7 @@ sealed trait Node { self =>
   def totalSize: Long
   def numFiles: Long
   def isSiblingOf(ancestor: Node): Boolean = self.attributes.path.startsWith(ancestor.attributes.path)
+  def toStringForLS: String
 }
 
 object Node {
@@ -52,6 +53,7 @@ case class FileNode(attributes: NodeAttributes, size: Long) extends Node {
   def totalSize = size
   def numFiles = 1L
   override def toString = s"FileNode(${attributes.path}, ${Node.prettySize(size)})"
+  def toStringForLS = s"FileNode(${attributes.name}, ${Node.prettySize(size)})"
 }
 
 case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node]) extends Node {
@@ -61,6 +63,7 @@ case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node])
   def totalSize = size + children.foldLeft(0L)((acc, child) => acc + child.totalSize)
   def numFiles = children.foldLeft(0L)((acc, child) => acc + child.numFiles)
   override def toString = s"DirNode(${attributes.path}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
+  def toStringForLS = s"DirNode(${attributes.name}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
 }
 
 case class IgnoredNode(path: String, exception: Option[String]) extends Node {
@@ -70,4 +73,5 @@ case class IgnoredNode(path: String, exception: Option[String]) extends Node {
   def totalSize = 0L
   def numFiles = 0L
   override def toString = s"IgnoredNode($path)"
+  def toStringForLS = s"IgnoredNode($path)"
 }

@@ -2,9 +2,13 @@ package pl.bka
 
 object Api {
   var tree: Node = null
+  var directory: DirNode = null
+
+  private def setDirectory(node: Node) = node match { case d: DirNode => directory = d; case _ => () }
 
   private def setTree(newTree: Node): Node = {
     tree = newTree
+    setDirectory(tree)
     tree
   }
 
@@ -23,6 +27,11 @@ object Api {
   def report(duplicates: Seq[Seq[Node]], reportFilePath: String = "./duplicates.txt") = {
     FileOps.writeFile(reportFilePath, Duplicates.report(duplicates))
     println("Done")
+  }
+
+  def ls(directory: DirNode = directory) = {
+    println(directory.attributes.path)
+    directory.children.foreach(c => println(c.toStringForLS))
   }
 }
 

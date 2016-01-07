@@ -6,7 +6,7 @@ Usage
 
     sbt console
 
-read filesystem tree into scala objects graph:
+read filesystem tree into scala objects graph (current tree):
 
     scala> get("/home/bka/github")
     res0: pl.bka.Node = DirNode(/home/bka/github, 5.7 MB, 331 subnodes)
@@ -35,6 +35,13 @@ write report of duplicates to file (default file is ./duplicates.txt):
 
     scala> report(res4)
     Done
+
+navigate through current tree:
+
+    scala> ls()
+    /home/bka/github
+    DirNode(caves, 4.5 MB, 882 subnodes)
+    DirNode(backup-helper, 149.0 MB, 322 subnodes)
 
 Remarks
 ======
