@@ -38,5 +38,7 @@ object Api {
     directory.children.find(c => c.attributes.name == dirName).foreach { d => setDirectory(d) }
     ls()
   }
+
+  def join(tree1: Node, tree2: Node) = DirNode(NodeAttributes("join", "join"), 0L, List(tree1, tree2))
 }
 

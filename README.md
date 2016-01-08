@@ -50,6 +50,11 @@ navigate through current tree:
     FileNode(.gitignore~, 195.0 B)
     ...
 
+join trees:
+
+    scala> join(res0, res1)
+    res2: pl.bka.DirNode = DirNode(join, 47.8 GB, 5589 subnodes)
+
 Remarks
 ======
 
