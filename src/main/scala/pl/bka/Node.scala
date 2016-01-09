@@ -7,7 +7,10 @@ case class NodeAttributes(path: String, name: String)
 sealed trait Node { self =>
   val attributes: NodeAttributes
   val size: Long
-  def listNodes: List[Node]
+  def nodes: List[Node]
+  def files = nodes.filter(_.isInstanceOf[FileNode]).map(_.asInstanceOf[FileNode])
+  def dirs = nodes.filter(_.isInstanceOf[DirNode]).map(_.asInstanceOf[DirNode])
+  def ignored = nodes.filter(_.isInstanceOf[IgnoredNode]).map(_.asInstanceOf[IgnoredNode])
   def totalSize: Long
   def numFiles: Long
   def isSiblingOf(ancestor: Node): Boolean = self.attributes.path.startsWith(ancestor.attributes.path)
@@ -49,7 +52,7 @@ object Node {
 }
 
 case class FileNode(attributes: NodeAttributes, size: Long) extends Node {
-  def listNodes = List(this)
+  def nodes = List(this)
   def totalSize = size
   def numFiles = 1L
   override def toString = s"FileNode(${attributes.path}, ${Node.prettySize(size)})"
@@ -57,19 +60,19 @@ case class FileNode(attributes: NodeAttributes, size: Long) extends Node {
 }
 
 case class DirNode(attributes: NodeAttributes, size: Long, children: List[Node]) extends Node {
-  def listNodes = this :: children.foldLeft(List[Node]())(
-    (acc, subnode) => acc ++ subnode.listNodes
+  def nodes = this :: children.foldLeft(List[Node]())(
+    (acc, subnode) => acc ++ subnode.nodes
   )
   def totalSize = size + children.foldLeft(0L)((acc, child) => acc + child.totalSize)
   def numFiles = children.foldLeft(0L)((acc, child) => acc + child.numFiles)
-  override def toString = s"DirNode(${attributes.path}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
-  def toStringForLS = s"DirNode(${attributes.name}, ${Node.prettySize(totalSize)}, $numFiles subnodes)"
+  override def toString = s"DirNode(${attributes.path}, ${Node.prettySize(totalSize)}, $numFiles files)"
+  def toStringForLS = s"DirNode(${attributes.name}, ${Node.prettySize(totalSize)}, $numFiles files)"
 }
 
 case class IgnoredNode(path: String, exception: Option[String]) extends Node {
   val attributes = NodeAttributes(path, "")
   val size = 0L
-  def listNodes = List(this)
+  def nodes = List(this)
   def totalSize = 0L
   def numFiles = 0L
   override def toString = s"IgnoredNode($path)"

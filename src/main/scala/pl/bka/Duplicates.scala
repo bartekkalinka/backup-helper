@@ -11,7 +11,7 @@ object Duplicates {
 
   def findDuplicates(tree: Node): Seq[Seq[Node]] = {
     println("0")
-    val nodes = tree.listNodes
+    val nodes = tree.nodes
     println("1 nodes.length " + nodes.length)
     val pathsMap: Map[String, Node] = nodes.groupBy(n => n.attributes.path).mapValues(_.head)
     println("2 pathsMap.toSeq.length " + pathsMap.toSeq.length)
