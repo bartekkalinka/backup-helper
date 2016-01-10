@@ -37,6 +37,8 @@ object Node {
     }
   }
 
+  implicit def toNodeApi(tree: Node): NodeApi = NodeApi(tree)
+
   def prettySize(size: Long): String = {
     def sizeVersion(unitPref: String, index: Int) = {
       val sizeDiv = (size.toDouble * 10d / Math.pow(1000d, index.toDouble)).toLong.toDouble / 10d

@@ -13,12 +13,12 @@ read filesystem tree into scala objects graph (current tree):
 
 analyze tree:
 
-    scala> tree.listNodes.filter(_.attributes.name.endsWith("scala")).length
+    scala> tree.nodes.filter(_.attributes.name.endsWith("scala")).length
     res1: Int = 70
 
 serialize it to json file (default file is ./tree.json):
 
-    scala> ser()
+    scala> tree.ser()
     Done
 
 deserialize back to a tree:
@@ -28,7 +28,7 @@ deserialize back to a tree:
 
 find duplicates:
 
-    scala> dup()
+    scala> tree.dup()
     res4: Seq[Seq[pl.bka.Node]] = ...
 
 write report of duplicates to file (default file is ./duplicates.txt):
